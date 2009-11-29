@@ -8,64 +8,76 @@ systems language, like C++.
 These are some notes on Go for experienced C++ programmers. This
 document discusses the differences between Go and C++, and says little
 to nothing about the similarities. -->
-Go é uma linguagem de programação de sistemas destinada a ser uma linguagem de propósito geral, como C++. 
-Estas são algumas notas sobre Go para programadores C++ experientes. Este documento aborda as diferenças 
-entre o Go e C++, e diz pouco ou nada sobre as semelhanças entre elas.
+Go é uma linguagem de programação de sistemas destinada a ser uma
+linguagem de propósito geral, como C++. Estas são algumas notas sobre
+Go para programadores C++ experientes. Este documento aborda as
+diferenças entre o Go e C++, e diz pouco ou nada sobre as semelhanças
+entre elas.
 </p>
 
-<p>For a more general introduction to Go, see the
+<p><!-- For a more general introduction to Go, see the
 <a href="go_tutorial.html">Go tutorial</a> and
-<a href="effective_go.html">Effective Go</a>.
+<a href="effective_go.html">Effective Go</a>.-->
+Para uma introdução mais geral de Go, veja os textos <a href="go_tutorial.html">Go tutorial</a> e <a href="effective_go.html">Effective
+Go</a>.
 </p>
 
-<p>For a detailed description of the Go language, see the
-<a href="go_spec.html">Go spec</a>.
+<p><!-- For a detailed description of the Go language, see the
+<a href="go_spec.html">Go spec</a>.-->
+Para uma descrição detalhada da linguagem Go, veja o texto <a href="go_spec.html">Go spec</a>.
 </p>
 
-<h2 id="Conceptual_Differences">Conceptual Differences</h2>
+<h2 id="Conceptual_Differences">Diferenças Conceituais</h2>
 
 <ul>
 
-  <li>Go does not have classes with constructors or destructors.
+  <li><!-- Go does not have classes with constructors or destructors.
 Instead of class methods, a class inheritance hierarchy, and virtual
-functions, Go provides <em>interfaces</em>, which are <a href="#Interfaces">discussed in more detail below</a>. Interfaces are
-also used where C++ uses templates. </li>
-  <li>Go uses garbage collection. It is not necessary (or possible) to
-release memory explicitly. The garbage collection is (intended to be)
-incremental and highly efficient on modern processors. </li>
-  <li>Go has pointers but not pointer arithmetic. You cannot use a
-pointer variable to walk through the bytes of a string. </li>
-  <li>Arrays in Go are first class values. When an array is used as a
-function parameter, the function receives a copy of the array, not a
-pointer to it. However, in practice functions often use slices for
-parameters; slices hold pointers to underlying arrays. Slices are <a href="#Slices">discussed further below</a>. </li>
-  <li>Strings are provided by the language. They may not be changed
-once they have been created. </li>
-  <li>Hash tables are provided by the language. They are called maps. </li>
-  <li>Separate threads of execution, and communication channels between
+functions, Go provides <em>interfaces</em>, which are <a
+ href="#Interfaces">discussed in more detail below</a>. Interfaces are
+also used where C++ uses templates.-->Go não tem classes com
+construtores ou destrutores. Em vez de métodos de classe, hierarquia de
+herança de classes e funções virtuais, Go fornece <em>interfaces</em>,
+que são <a href="#Interfaces">discutidas detalhadamente logo abaixo</a>.
+    <em>Interfaces</em> também são
+usadas onde C++ usa <em>templates</em>.
+  </li>
+  <li>Go usa um coletor de lixo. Não é necessário (ou possível) liberar memória
+explicitamente. O coletor de lixo é (destinado a ser) incremental e
+altamente eficiente em processadores modernos.<br>
+ </li>
+  <li>Go utiliza ponteiros mas não utiliza aritmética de ponteiros. Você não pode utilizar uma variável ponteiro para percorrer os <em>bytes</em> de uma <em>string</em>.<br>
+  </li>
+  <li><!-- Arrays in Go are first class values. When an array is used as a function parameter, the function receives a copy of the array, not a pointer to it. However, in practice functions often use slices for parameters; slices hold pointers to underlying arrays. Slices are <a href="#Slices">discussed further below</a>. -->Matrizes em Go são valores de primeira classe. Quando uma matriz é usada como um parâmetro de função, a função recebe uma cópia da matriz, e não um ponteiro para ela. Entretanto, na prática, muitas funções utilizam <em>slices</em> para os parâmetros; <em>slices</em> reteem ponteiros para subcamadas das matrizes. <em>Slices</em> são <a href="#Slices">discutidos logo abaixo</a>. 
+ </li>
+<li><!-- Strings are provided by the language. They may not be changed
+once they have been created. -->As <em>strings</em> são fornecidas pela linguagem. Elas não podem ser modificadas uma vez que foram criadas.</li>
+  <li><!--Hash tables are provided by the language. They are called maps.-->Tabelas <em>hash</em> são fornecidas pela linguagem. Elas são chamadas de <em>maps</em>.</li>
+  <li><!--Separate threads of execution, and communication channels between
 them, are provided by the language. This is <a href="#Goroutines">discussed
-further below</a>. </li>
-  <li>Certain types (maps and channels, described further below) are
+further below</a>.-->A linguagem também fornece <em>threads</em> separados de execução e canais de comunicação entre eles. Isto é <a href="#Goroutines">discutido logo abaixo</a>.</li>
+  <li><!--Certain types (maps and channels, described further below) are
 passed by reference, not by value. That is, passing a map to a function
 does not copy the map, and if the function changes the map the change
 will be seen by the caller. In C++ terms, one can think of these as
-being reference types. </li>
-  <li>Go does not use header files. Instead, each source file is part
+being reference types.-->Certos tipos (<em>maps</em> e canais), descritos logo abaixo, são passados por referência e não por valor. Isto é, um <em>map</em> não é copiado quando é passado para uma função e se uma função muda o <em>map</em> a mudança será percebida pelo chamador da função. Em termos de C++, pode-se considerá-lo como tipo de referência.</li>
+  <li><!--Go does not use header files. Instead, each source file is part
 of a defined <em>package</em>. When a package defines an object (type,
 constant, variable, function) with a name starting with an upper case
 letter, that object is visible to any other file which imports that
-package. </li>
-  <li>Go does not support implicit type conversion. Operations that mix
-different types require casts (called conversions in Go). </li>
-  <li>Go does not support function overloading and does not support
-user defined operators. </li>
-  <li>Go does not support <code>const</code> or <code>volatile</code>
-qualifiers. </li>
-  <li>Go uses <code>nil</code> for invalid pointers, where C++ uses <code>NULL</code>
-or simply <code>0</code>. </li>
+package. -->Go não usa arquivos de cabeçalho. Em vez disso, cada arquivo fonte é parte de um <em>pacote</em> definido. Quando um pacote define um objeto (tipo, constante, variável, função) com um nome iniciando com letra maiúscula, aquele objeto é visível a qualquer outro arquivo que importa o pacote.	
+  </li>
+  <li><!--Go does not support implicit type conversion. Operations that mix
+different types require casts (called conversions in Go).-->Go não suporta conversão implícita de tipo. As operações que misturam diferentes tipos requerem <em>casts</em> (chamados de conversões em GO).</li>
+  <li><!--Go does not support function overloading and does not support
+user defined operators.-->Go não suporta sobrecarga de função e não suporta operadores definidos pelos usuários. </li>
+  <li><!--Go does not support <code>const</code> or <code>volatile</code>
+qualifiers. -->Go não suporta qualificadores <code>const</code> ou <code>volatile</code></li>
+  <li><!--Go uses <code>nil</code> for invalid pointers, where C++ uses <code>NULL</code>
+or simply <code>0</code>. -->Go utiliza <code>nil</code> para indicar ponteiros inválidos onde C++ usa <code>NULL</code></li>
 </ul>
 
-<h2 id="Syntax">Syntax</h2>
+<h2 id="Syntax">Sintaxe</h2>
 
 <p>
 The declaration syntax is reversed compared to C++. You write the name
