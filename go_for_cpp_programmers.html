@@ -80,11 +80,12 @@ or simply <code>0</code>. -->Go utiliza <code>nil</code> para indicar ponteiros 
 <h2 id="Syntax">Sintaxe</h2>
 
 <p>
-The declaration syntax is reversed compared to C++. You write the name
+<!--The declaration syntax is reversed compared to C++. You write the name
 followed by the type. Unlike in C++, the syntax for a type does not
 match
 the way in which the variable is used. Type declarations may be read
-easily from left to right.
+easily from left to right.-->A sintaxe da declaração é invertida em relação ao C++. Você escreve o nome
+seguido do tipo. Ao contrário do C++, a sintaxe para um tipo não corresponde a maneira em que a variável é usada. Declarações de tipo podem ser lidas facilmente da esquerda para a direita
 </p>
 
 <pre><b>Go                           C++</b><br>var v1 int;               // int v1;<br>var v2 string;            // const std::string v2;  (approximately)<br>var v3 [10]int;           // int v3[10];<br>var v4 []int;             // int* v4;  (approximately)<br>var v5 struct { f int };  // struct { int f; } v5;<br>var v6 *int;              // int* v6;  (but no pointer arithmetic)<br>var v7 map[string]int;    // unordered_map&lt;string, int&gt;* v7;  (approximately)<br>var v8 func(a int) int;   // int (*v8)(int a);<br></pre>
