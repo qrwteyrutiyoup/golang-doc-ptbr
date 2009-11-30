@@ -1,48 +1,47 @@
 <!-- Setting up and using gccgo -->
 
 <p>
-This document explains how to use <code>gccgo</code>, a compiler for
-the Go language.  The <code>gccgo</code> compiler is a new frontend
-for <code>gcc</code>, the widely used GNU compiler.  Although the
-frontend itself is under a BSD-style license, <code>gccgo</code> is
-normally used as part of <code>gcc</code> and is then covered by
-the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public
+Este documento explica como usar <code>gccgo</code>, um compilador para
+a linguagem Go. O compilador <code>gccgo</code> é uma nova interface
+para o <code>gcc</code>, o compilador GNU amplamente utilizado.  Embora a
+interface em si ser sob Licença BSD, o <code>gccgo</code> é
+normalmente usada como parte do <code>gcc</code> que é coberta pela 
+<a href="http://www.gnu.org/licenses/gpl.html">GNU General Public
 License</a>.
 </p>
 
 <p>
-Note that <code>gccgo</code> is not the <code>6g</code> compiler; see
-the <a href="install.html">Installing Go</a> instructions for that
-compiler.
+Note que <code>gccgo</code> não é o compilador <code>6g</code>; veja
+o <a href="install.html">Instalando Go</a> para instruções sobre esse
+compilador.
 </p>
 
-<h2 id="Source_code">Source code</h2>
+<h2 id="Source_code">Código Fonte</h2>
 
 <p>
-The <code>gccgo</code> source code is accessible via Subversion.  The
-<code>gcc</code> web site
-has <a href="http://gcc.gnu.org/svn.html">instructions for getting the
-<code>gcc</code> source code</a>.  The <code>gccgo</code> source code
-is a branch of the main <code>gcc</code> code
-repository: <code>svn://gcc.gnu.org/svn/gcc/branches/gccgo</code>.
+O código fonte do <code>gccgo</code> está acessível via Subversion.  O
+site do <code>gcc</code> tem 
+<a href="http://gcc.gnu.org/svn.html">instruções para fazer download
+do código fonte do <code>gcc</code></a>.  O código fonte <code>gccgo</code>
+é um branch do repositório principal do <code>gcc</code>: 
+<code>svn://gcc.gnu.org/svn/gcc/branches/gccgo</code>.
 </p>
 
-<h2 id="Building">Building</h2>
+<h2 id="Building">Compilando</h2>
 
 <p>
-Building <code>gccgo</code> is just like building <code>gcc</code>
-with one additional option.  See
-the <a href="http://gcc.gnu.org/install/">instructions on the gcc web
-site</a>.  When you run <code>configure</code>, add the
-option <code>--enable-languages=c,c++,go</code> (along with other languages you
-may want to build).
+Compilar o <code>gccgo</code> é semelhante a compilar o <code>gcc</code>
+com opções adicionais.  Veja
+as <a href="http://gcc.gnu.org/install/">instruções no site do gcc
+</a>.  Quando você executar <code>configure</code>, adicione a 
+opção <code>--enable-languages=c,c++,go</code> (junto com outras linguagens
+que você queria compilar).
 </p>
 
 <p>
-A number of prerequisites are required to build <code>gcc</code>, as
-described on the <code>gcc</code> web site.  If those are all
-available, then a typical build and install sequence would look like
-this:
+Um série de pré-requisitos são necessários para compilação do <code>gcc</code>,
+conforme descrito no site do <code>gcc</code>.  Se todos os pré-requisitos
+estão disponíveis, então a compilação e instalação típica seguem esta sequência: 
 
 <pre>
 svn checkout svn://gcc.gnu.org/svn/gcc/branches/gccgo gccgo
@@ -54,58 +53,58 @@ make install
 </pre>
 </p>
 
-<h2 id="Using_gccgo">Using gccgo</h2>
+<h2 id="Using_gccgo">Usando gccgo</h2>
 
 <p>
-The <code>gccgo</code> compiler works like other gcc frontends.
+O compilador <code>gccgo</code> trabalha semelhante a outra interface gcc
 
 <p>
-To compile a file:
+Para compilar um arquivo:
 
 <pre>
 gccgo -c file.go
 </pre>
 
 <p>
-That produces <code>file.o</code>. To link files together to form an
-executable:
+Que produzirá <code>file.o</code>. Para linkar os arquivos para a forma 
+de um executável:
 
 <pre>
 gccgo -o file file.o
 </pre>
 
 <p>
-To run the resulting file, you will need to tell the program where to
-find the Go runtime library. This can be done either by setting
-<code>LD_LIBRARY_PATH</code> in your environment:
+Para executar o arquivo resultante, você deve dizer ao programa
+onde encontrar a biblioteca Go. Isto pode ser feito definindo
+a variável <code>LD_LIBRARY_PATH</code> no seu ambiente:
 
 <pre>
 LD_LIBRARY_PATH=/usr/lib/gcc/MACHINE/VERSION
 </pre>
 
 <p>
-or by passing a <code>-Wl,-R</code> option when you link:
+ou por meio de uso dos parâmetros <code>-Wl,-R</code> quando usar o linker:
 
 <pre>
 gccgo -o file file.o -Wl,-R,/usr/lib/gcc/MACHINE/VERSION
 </pre>
 
 <p>
-or you can use the <code>-static-libgo</code> link-time option to link
-statically against libgo, or you can do a fully static link (static
-linking is the default for the <code>6l</code> Go linker).  On most
-systems, a static link will look something like:
+ou você pode usar a opção <code>-static-libgo</code> para linkar estaticamente
+contra a libgo, ou você pode fazer uma ligação totalmente estática(links estáticos
+são o padrão para o Go linker <code>6l</code>).  Na maioria dos sistemas
+, um link estático será parecido com:
 
 <pre>
 gccgo -o file file.o -static -L /usr/lib/nptl -lgobegin -lgo -lpthread
 </pre>
 
 <p>
-You may get a warning about not creating an <code>.eh_frame_hdr</code>
-section; this has nothing to do with Go, and may be ignored. In the
-future the requirement of explicitly specifying
+Você pode receber uma alerta sobre a não criação de uma seção
+<code>.eh_frame_hdr</code>; isso não tem nada a ver com Go, e pode 
+ser ignorada. No futuro a exigência de especificar explicitamente 
 <code>-L /usr/lib/nptl -lgobegin -lgo -lpthread</code>
-may be removed.
+deve ser removida.
 
 
 <h2 id="Imports">Imports</h2>
