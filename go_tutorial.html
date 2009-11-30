@@ -1,81 +1,82 @@
-<!-- A Tutorial for the Go Programming Language -->
-<h2>Introduction</h2>
+<!-- Um Tutorial para a Linguagem de Programação Go -->
+<h2>Introdução</h2>
 <p>
-This document is a tutorial introduction to the basics of the Go programming
-language, intended for programmers familiar with C or C++. It is not a comprehensive
-guide to the language; at the moment the document closest to that is the
-<a href='/doc/go_spec.html'>language specification</a>.
-After you've read this tutorial, you might want to look at
-<a href='/doc/effective_go.html'>Effective Go</a>,
-which digs deeper into how the language is used.
-Also, slides from a 3-day course about Go are available:
-<a href='/doc/GoCourseDay1.pdf'>Day 1</a>,
-<a href='/doc/GoCourseDay2.pdf'>Day 2</a>,
-<a href='/doc/GoCourseDay3.pdf'>Day 3</a>.
+Este documento é um tutorial introdutório aos básicos da programação em linguagem Go,
+destinada a programadores familiares com C ou C++. Não é um guia compreensivo para
+a linguagem; no momento, o documento mais próximo disso é a 
+<a href='/doc/go_spec.html'>especificação da linguagem</a>.
+Após ler este tutorial, você talvez queira olhar 
+<a href='/doc/effective_go.html'>Go Efetivo</a>,
+que vai um pouco mais profundo em como a linguagem é usada.
+Além disso, <i>slides</i> de um curso de 3 dias sobre Go estão disponíveis (em inglês):
+<a href='/doc/GoCourseDay1.pdf'>Dia 1</a>,
+<a href='/doc/GoCourseDay2.pdf'>Dia 2</a>,
+<a href='/doc/GoCourseDay3.pdf'>Dia 3</a>.
 <p>
-The presentation here proceeds through a series of modest programs to illustrate
-key features of the language.  All the programs work (at time of writing) and are
-checked into the repository in the directory <a href='/doc/progs'><code>/doc/progs/</code></a>.
+A apresentação aqui procede através de uma série de programas modestos para ilustrar
+características-chave da linguagem. Todos os programas funcionam (no momento em que este
+documento foi escrito) e estão disponíveis no repositório no diretório 
+<a href='/doc/progs'><code>/doc/progs/</code></a>.
 <p>
-Program snippets are annotated with the line number in the original file; for
-cleanliness, blank lines remain blank.
+Trechos de código são anotados com o número da linha no arquivo original; por questões
+de estética, linhas em branco permanecem brancas.
 <p>
 <h2>Hello, World</h2>
 <p>
-Let's start in the usual way:
+Vamos começar do modo clássico:
 <p>
 <pre> <!-- progs/helloworld.go /package/ END -->
 05    package main
 <p>
-07    import fmt &quot;fmt&quot;  // Package implementing formatted I/O.
+07    import fmt &quot;fmt&quot;  // Pacote implementando E/S (entrada/saída) formatada.
 <p>
 09    func main() {
 10        fmt.Printf(&quot;Hello, world; or Καλημέρα κόσμε; or こんにちは 世界\n&quot;);
 11    }
 </pre>
 <p>
-Every Go source file declares, using a <code>package</code> statement, which package it's part of.
-It may also import other packages to use their facilities.
-This program imports the package <code>fmt</code> to gain access to
-our old, now capitalized and package-qualified, friend, <code>fmt.Printf</code>.
+
+Todo arquivo fonte Go declara, usando a declaração <code>package</code>, o pacote a que faz parte.
+Ele pode também importar outros pacotes para usar suas facilidades.
+Este programa importa o pacote <code>fmt</code> para obter acesso ao nosso velho - agora capitalizado e 
+qualificado via pacote - amigo, <code>fmt.Printf</code>.
 <p>
-Functions are introduced with the <code>func</code> keyword.
-The <code>main</code> package's <code>main</code> function is where the program starts running (after
-any initialization).
+Funções são introduzidas com a palavra-chave <code>func</code>.
+A função <code>main</code> do pacote <code>main</code> é onde o programa começa executando (após qualquer inicialização).
 <p>
-String constants can contain Unicode characters, encoded in UTF-8.
-(In fact, Go source files are defined to be encoded in UTF-8.)
+Constantes <i>String</i> podem conter caracteres <i>Unicode</i>, codificados emUTF-8.
+(De fato, arquivos fonte Go são definidos para ser codificados em UTF-8.)
 <p>
-The comment convention is the same as in C++:
+A convenção de comentários é a mesma do C++:
 <p>
 <pre>
     /* ... */
     // ...
 </pre>
 <p>
-Later we'll have much more to say about printing.
+Depois falaremos mais sobre impressão.
 <p>
-<h2>Compiling</h2>
+<h2>Compilando</h2>
 <p>
-Go is a compiled language.  At the moment there are two compilers.
-<code>Gccgo</code> is a Go compiler that uses the GCC back end.  There is also a
-suite of compilers with different (and odd) names for each architecture:
-<code>6g</code> for the 64-bit x86, <code>8g</code> for the 32-bit x86, and more.  These
-compilers run significantly faster but generate less efficient code
-than <code>gccgo</code>.  At the time of writing (late 2009), they also have
-a more robust run-time system although <code>gccgo</code> is catching up.
+Go é uma linguagem compilada. No momento existem dois compiladores.
+<code>Gccgo</code> é um compilador Go que usa o GCC como <i>back end</i>. 
+Existe também uma suíte de compiladores com diferentes (e estranhos) nomes para cada arquitetura:
+<code>6g</code> para x86 64-bit, <code>8g</code> para x86 32-bit, e mais.
+Esses compiladores executam significantemente mais rápidos, mas geram código menos eficiente
+que o <code>gccgo</code>.  Na época da escrita deste documento (final de 2009), eles também têm
+um sistema de tempo de execução mais robusto, apesar de o <code>gccgo</code> estar acompanhando rapidamente.
 <p>
-Here's how to compile and run our program.  With <code>6g</code>, say,
+Eis um exemplo de como compilar e executar um programa com, por exemplo, o <code>6g</code>:
 <p>
 <pre>
-    $ 6g helloworld.go  # compile; object goes into helloworld.6
-    $ 6l helloworld.6   # link; output goes into 6.out
+    $ 6g helloworld.go  # compila; código objeto vai para helloworld.6
+    $ 6l helloworld.6   # <i>linka</i>; saída vai para 6.out
     $ 6.out
     Hello, world; or Καλημέρα κόσμε; or こんにちは 世界
     $
 </pre>
 <p>
-With <code>gccgo</code> it looks a little more traditional.
+Com o <code>gccgo</code> o processo parece um pouco mais tradicional:
 <p>
 <pre>
     $ gccgo helloworld.go
@@ -86,7 +87,7 @@ With <code>gccgo</code> it looks a little more traditional.
 <p>
 <h2>Echo</h2>
 <p>
-Next up, here's a version of the Unix utility <code>echo(1)</code>:
+A seguir, uma versão do utilitário Unix <code>echo(1)</code>:
 <p>
 <pre> <!-- progs/echo.go /package/ END -->
 05    package main
