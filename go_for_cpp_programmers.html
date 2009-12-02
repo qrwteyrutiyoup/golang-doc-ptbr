@@ -270,7 +270,7 @@ A instrução <code>defer</code> pode ser usada para chamar uma função após a funç
 
 <h2 id="Constants">Constantes</h2>
 
-<p>
+<!--<p>
 In Go constants may be <i>untyped</i>. This applies even to constants
 named with a <code>const</code> declaration, if no
 type is given in the declaration and the initializer expression uses
@@ -279,25 +279,28 @@ untyped constants.
 A value derived from an untyped constant becomes typed when it
 is used within a context that
 requires a typed value. This permits constants to be used relatively
-freely without requiring general implicit type conversion.
+freely without requiring general implicit type conversion.-->
+As constantes em Go podem ser declaradas <i>sem tipo</i>. Isso se aplica mesmo as constantes nomeadas com a instrução <code>const</code>, se nenhum tipo é dado na declaração e a expressão de inicialização usa apenas constantes sem tipo. Um valor derivado de uma constante sem tipo torna-se tipada quando ela é usada dentro de um contexto que requer um valor tipado. Isso permite constantes serem usadas de forma relativamente livre sem necessidade de conversão de tipo geral implícita.
 </p>
 
-<pre>var a uint;<br>f(a + 1)  // untyped numeric constant "1" becomes typed as uint<br></pre>
+<pre>var a uint;<br>f(a + 1)  // constante numérica não tipada "1" torna-se tipada por uint<br></pre>
 
 <p>
-The language does not impose any limits on the size of an untyped
+<!--The language does not impose any limits on the size of an untyped
 numeric constant or constant expression. A limit is only applied when
-a constant is used where a type is required.
+a constant is used where a type is required.-->
+A linguagem não impõe qualquer limite no tamanho de uma constante numérica não tipada ou expressão constante. O limite é apenas aplicado quando a constante é usada onde um tipo é requerido.
 </p>
 
 <pre>const huge = 1 &lt;&lt; 100;<br>f(huge &gt;&gt; 98)<br></pre>
 
 <p>
-Go does not support enums. Instead, you can use the special name
+<!--Go does not support enums. Instead, you can use the special name
 <code>iota</code> in a single <code>const</code> declaration to get a
 series of increasing
 value. When an initialization expression is omitted for a <code>const</code>,
-it reuses the preceding expression.
+it reuses the preceding expression.-->
+Go não suporta enumerações. Em vez disso, você pode usar a instrução especial <code>iota</code> em uma instrução simples <code>const</code> para conseguir uma série de valores crescentes. Quando uma espressão de inicialização é omitida por uma <code>const</code>, ela reutiliza uma expressão anterior.
 </p>
 
 <pre>const (<br>    red = iota;  // red == 0<br>    blue;        // blue == 1<br>    green        // green == 2<br>)<br></pre>
