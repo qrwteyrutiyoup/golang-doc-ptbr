@@ -308,7 +308,7 @@ Go não suporta enumerações. Em vez disso, você pode usar a instrução especial <c
 <h2 id="Slices">Slices</h2>
 
 <p>
-A slice is conceptually a struct with three fields: a
+<!--A slice is conceptually a struct with three fields: a
 pointer to an array, a length, and a capacity.
 Slices support
 the <code>[]</code> operator to access elements of the underlying
@@ -316,10 +316,11 @@ array.
 The builtin
 <code>len</code> function returns the
 length of the slice. The builtin <code>cap</code> function returns the
-capacity.
+capacity.-->
+Um <em>slice</em> é conceitualmente uma estrutura com três campos: um ponteiro para um array, um comprimento, e uma capacidade. Os <em>slices</em> suportam o operador <code>[]</code> para acessar os elementos da matriz subjacente. A função pré-definida <code>len</code> retorna o comprimento de um <em>slice</em>. A função pré-definida <code>cap</code> retorna a capacidade.
 </p>
 
-<p>Given an array, or another slice, a new slice is created via
+<p><!--Given an array, or another slice, a new slice is created via
 <code>a[I:J]</code>. This
 creates a new slice which refers to <code>a</code>, starts at
 index <code>I</code>, and ends before index
@@ -335,10 +336,12 @@ of an array is the length of the array. You may also assign an array
 pointer
 to a variable of slice type; given <code>var s []int; var a[10] int</code>,
 the assignment <code>s = &amp;a</code> is equivalent to
-<code>s = a[0:len(a)]</code>.
+<code>s = a[0:len(a)]</code>.-->
+Dada uma matriz, ou outro <em>slice</em>, um novo <em>slice</em> é criado usando <code>a[I:J]</code>. Este comando cria um novo <em>slice</em> que se refere a <code>a</code>, com índice inicial <code>I</code>, e com índice final antes de <code>J</code>. Seu comprimento é <code>J - I</code>. O novo <em>slice</em> se refere a mesma matriz que <code>a</code> se refere.  Isto é, mudanças feitas usando o novo <em>slice</em> pode ser visto usando <code>a</code>. A capacidade de um novo <em>slice</em> é simplesmente a capacidade de <code>a</code> menos <code>I</code>. A capacidade de uma matriz é o comprimento de uma matriz. Você pode também atribuir um ponteiro de matriz para uma variável do tipo <em>slice</em>; dado <code>var s []int; var a[10] int</code>,
+a atribuição <code>s = &amp;a</code> é equivalente a <code>s = a[0:len(a)]</code>.
 </p>
 
-<p>What this means is that Go uses slices for some cases where C++ uses
+<p><!--What this means is that Go uses slices for some cases where C++ uses
 pointers.
 If you create a value of type <code>[100]byte</code> (an array of 100
 bytes,
@@ -351,17 +354,19 @@ address
 of the array. Unlike in C++, it is not
 necessary to pass the length of the buffer; it is efficiently
 accessible via
-<code>len</code>.
+<code>len</code>.-->
+Isso significa que Go usa <em>slices</em> para alguns casos onde C++ usa ponteiros. Se você criar um valor do tipo <code>[100]byte</code> (uma matriz de 100 bytes, talvez um buffer) e você quer passá-la  para uma cunção sem copiá-la, você de declarar o parâmetro de função para o tipo <code>[]byte</code>, e passar o endereço para a matriz. Ao contrário de C++, não é necessário passar o comprimento do <em>buffer</em>; isto é eficientemente acessado via instrução <code>len</code>.
 </p>
 
-<p>The slice syntax may also be used with a string. It returns a new
+<p><!--The slice syntax may also be used with a string. It returns a new
 string,
 whose value is a substring of the original string.
 Because strings are immutable, string slices can be implemented
-without allocating new storage for the slices's contents.
+without allocating new storage for the slices's contents.-->
+A sintaxe do <code>slice</code> pode também ser usada com uma <code>string</code>. Ela retorna uma nova <code>string</code>, cujo valor é uma substring da <code>string</code> original. Por serem as <code>strings</code> imutáveis. Os <code>slices</code> de <em>strings</em> podem ser implementados sem alocar novo espaço de memória para o conteúdo dos <code>slices</code>.
 </p>
 
-<h2 id="Making_values">Making values</h2>
+<h2 id="Making_values">Criando Valores</h2>
 
 <p>
 Go has a builtin function <code>new</code> which takes a type and
